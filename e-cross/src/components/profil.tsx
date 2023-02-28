@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Profil() {
   const parseJWT = (token: string) => {
@@ -7,8 +8,18 @@ function Profil() {
     return JSON.parse(window.atob(base64));
   };
 
+  const navigate = useNavigate();
+
   useEffect(() => {
-    const jwt = parseJWT(localStorage.getItem("idToken") as string);
+    if (localStorage.getItem("idToken") !== null) {
+      const jwt = parseJWT(localStorage.getItem("idToken") as string);
+      if (jwt.exp < Date.now() / 1000) {
+        localStorage.removeItem("idToken");
+        navigate("/Connexion");
+      }
+    } else {
+      navigate("/Connexion");
+    }
   });
   return (
     <div>
