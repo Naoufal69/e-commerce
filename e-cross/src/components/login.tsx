@@ -29,6 +29,7 @@ function Login() {
         .then((idToken) => {
           localStorage.setItem("idToken", idToken);
           setUser(true);
+          console.log(localStorage.getItem("idToken"));
         })
         .catch((error) => {
           console.log(error.message);
@@ -39,7 +40,7 @@ function Login() {
     <div className="relative flex flex-col justify-center min-h-screen overflow-hidden">
       <div className="w-full p-6 m-auto bg-white rounded-md shadow-md lg:max-w-xl">
         <h1 className="text-3xl font-semibold text-center">Connexion</h1>
-        <form className="mt-6">
+        <form className="mt-6" onSubmit={handleSubmit}>
           <div className="mb-2">
             <label
               htmlFor="email"
