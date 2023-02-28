@@ -8,6 +8,8 @@ function Login() {
   const [user, setUser] = useState(false);
 
   useEffect(() => {
+    console.log('auth: ', auth)
+    console.log(localStorage.getItem("idToken"));
     if (localStorage.getItem("idToken")) {
       setUser(true);
     }

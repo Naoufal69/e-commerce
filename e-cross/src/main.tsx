@@ -1,3 +1,4 @@
+import { createContext } from 'react'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
@@ -6,6 +7,7 @@ import Index from './components'
 import Header from "./components/header"
 import Produit from "./components/produit"
 import Login from './components/login'
+import Profil from './components/profil'
 
 const router = createBrowserRouter([
   {
@@ -20,6 +22,10 @@ const router = createBrowserRouter([
     path: "/Connexion",
     element: <Login />,
   },
+  {
+    path: "/Profil",
+    element: <Profil/>,
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
