@@ -8,8 +8,6 @@ function Login() {
   const [user, setUser] = useState(false);
 
   useEffect(() => {
-    console.log('auth: ', auth)
-    console.log(localStorage.getItem("idToken"));
     if (localStorage.getItem("idToken")) {
       setUser(true);
     }
@@ -31,10 +29,8 @@ function Login() {
         .then((idToken) => {
           localStorage.setItem("idToken", idToken);
           setUser(true);
-          console.log(localStorage.getItem("idToken"));
         })
         .catch((error) => {
-          console.log(error.message);
         });
     }
   };
