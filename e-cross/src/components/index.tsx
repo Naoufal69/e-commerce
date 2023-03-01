@@ -22,13 +22,14 @@ function Index() {
     loadMotocross();
   }, []);
   return (
-    <div>
-      {motocross.map((motocross,index)=><div className="mb-5" key={index}>
-        <img src={motocross.image}/>
-        <div>{motocross.modele}</div>
-        <div>{new Intl.NumberFormat().format(motocross.prix)} €</div>
-        <div>{motocross.date}</div>
-        <div>{motocross.marque}</div>
+    <div className="flex space-x-20 m-5">
+      {motocross.map((motocross,index)=><div className="rounded-md shadow-md w-1/4 h-1/5 min-w-fit" key={index}>
+        <img src={motocross.image} className="w-82 h-72 items-center"/>
+        <div className="flex justify-between flex-wrap">
+          <div className="text-lg font-semibold text-center">{motocross.marque}</div>
+          <div className="text-lg font-semibold text-center">{motocross.modele}</div>
+          <div className="text-lg font-semibold text-center">{motocross.date}</div>
+        </div>
         </div>)}
     </div>
   );
