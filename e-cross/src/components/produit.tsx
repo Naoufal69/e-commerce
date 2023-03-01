@@ -100,7 +100,7 @@ function Produit() {
           </div>
         </div>
       ))}
-      <div className="flex">
+      <div className="flex items-center mt-9">
         <div className="mx-8">
           <button
             className="h-max bg-black text-white border-black border-2 w-5"
