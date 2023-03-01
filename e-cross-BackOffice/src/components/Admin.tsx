@@ -35,7 +35,13 @@ function Admin() {
     loadCommande();
   }, []);
 
-  const updateCommande = async (id: string, etatSet: number) => {
+  const updateValideCommande = async (id: string, etatSet: number) => {
+    const commandeRef = doc(db, "Commande", id);
+    await updateDoc(commandeRef, { etat: etatSet });
+    loadCommande();
+  };
+
+  const updateInvalideCommande = async (id: string, etatSet: number) => {
     const commandeRef = doc(db, "Commande", id);
     await updateDoc(commandeRef, { etat: etatSet });
     loadCommande();
@@ -97,10 +103,10 @@ function Admin() {
 
         </div>
         <div className="w-1/6 flex flex-col">
-          <button onClick={() => updateCommande(commande.id,1)} className="bg-black hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mt-10 ml-6 mr-6">
+          <button onClick={() => updateValideCommande(commande.id,1)} className="bg-black hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mt-10 ml-6 mr-6">
             ✅
           </button>
-          <button className="bg-black hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mt-10 ml-6 mr-6">
+          <button onClick={() => updateInvalideCommande(commande.id,2)} className="bg-black hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mt-10 ml-6 mr-6">
             ❌
           </button>
         </div>
