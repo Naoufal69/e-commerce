@@ -100,8 +100,8 @@ function Produit() {
           </div>
         </div>
       ))}
-      <div className="mx-8 h-20">
-        <div>
+      <div className="flex">
+        <div className="mx-8">
           <button
             className="h-max bg-black text-white border-black border-2 w-5"
             onClick={() => dispatch({ type: "decrement" })}
@@ -120,6 +120,9 @@ function Produit() {
           >
             +
           </button>
+        </div>
+        <div>
+            <button className="bg-black text-white border-black rounded-md border-2 p-4">Ajouter au panier</button>
         </div>
       </div>
     </div>

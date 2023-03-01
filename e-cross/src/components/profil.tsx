@@ -26,9 +26,9 @@ function Profil() {
     produit_date: number;
     produit_marque: string;
     produit_modele: string;
-    quantite: 2;
+    produit_quantite: 2;
     ville: string;
-    prix: number;
+    produit_prix: number;
     description: string;
     id: string;
   };
@@ -91,11 +91,11 @@ function Profil() {
                 <div className="flex justify-between ">
                   <div className="flex justify-between w-1/6 text-lg font-semibold flex-nowrap text-center">
                     <h2>Quantité :</h2>
-                    {commande.quantite}
+                    {commande.produit_quantite}
                   </div>
                   <div className="flex justify-between w-1/4 text-lg font-semibold text-center">
                     <h2>Prix total : </h2>
-                    {new Intl.NumberFormat().format(commande.prix*commande.quantite)} €
+                    {new Intl.NumberFormat().format(commande.produit_prix*commande.produit_quantite)} €
                   </div>
                 </div>
               </div>
