@@ -4,7 +4,7 @@ import caddi from "../assets/panier.png";
 import { Link, NavLink } from "react-router-dom";
 function Header() {
   return (
-    <header className="h-20 w-full bg-black flex justify-between">
+    <header className="h-20 w-full min-w-full bg-black flex justify-between">
       <div className="h-20">
         <Link to="/">
           <img src={logo} alt="Image gauche" className="h-20" />
