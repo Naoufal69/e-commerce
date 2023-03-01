@@ -1,8 +1,6 @@
-import React, { useState,useEffect } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { collection, query, getDocs } from "firebase/firestore";
+import { useState,useEffect } from "react";
+import { collection, query, getDocs, where, doc, updateDoc, deleteDoc,  } from "firebase/firestore";
 import { db } from "../firebase.config";
-import { auth } from "./../firebase.config";
 
 function Admin() {
 
@@ -18,18 +16,30 @@ function Admin() {
     produit_prix: number; 
     produit_quantite:number;
     ville:string;
+    etat:number,
+    id: string;
   };
   const loadCommande = async () => {
-    const q = query(collection(db, "Commande"));
+    const q = query(collection(db, "Commande"), where("etat", "==", 0));
     const querySnapshot = await getDocs(q);
+    const loadedCommande = [] as Commande[];
     setCommande([])
     querySnapshot.forEach((doc) => {
-      setCommande((commande) => [...commande, doc.data() as Commande]);
+      const currentCommande = doc.data() as Commande;
+      const id = doc.id;
+      loadedCommande.push({...currentCommande, id });
     });
+    setCommande(loadedCommande)
   };
   useEffect(() => {
     loadCommande();
   }, []);
+
+  const updateCommande = async (id: string, etatSet: number) => {
+    const commandeRef = doc(db, "Commande", id);
+    await updateDoc(commandeRef, { etat: etatSet });
+    loadCommande();
+  };
 
   return (
     <div className="flex flex-col justify-center m-auto w-3/4 mt-10 ">
@@ -87,7 +97,7 @@ function Admin() {
 
         </div>
         <div className="w-1/6 flex flex-col">
-          <button className="bg-black hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mt-10 ml-6 mr-6">
+          <button onClick={() => updateCommande(commande.id,1)} className="bg-black hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mt-10 ml-6 mr-6">
             ✅
           </button>
           <button className="bg-black hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mt-10 ml-6 mr-6">
