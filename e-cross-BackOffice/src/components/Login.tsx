@@ -45,7 +45,7 @@ function Login() {
               htmlFor="email"
               className="block text-sm font-semibold text-gray-800"
             >
-              Email
+              Adresse mail
             </label>
             <input
               type="email"
@@ -58,7 +58,7 @@ function Login() {
               htmlFor="password"
               className="block text-sm font-semibold text-gray-800"
             >
-              Password
+              Mot de passe
             </label>
             <input
               type="password"
@@ -68,7 +68,7 @@ function Login() {
           </div>
           <div className="mt-6">
             <button className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-black rounded-md focus:outline-none focus:bg-black-600">
-              Login
+              Se Connecter
             </button>
           </div>
         </form>
