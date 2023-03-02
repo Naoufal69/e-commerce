@@ -36,7 +36,8 @@ function Index() {
             key={index}
           >
             <img src={motocross.image} className="w-82 h-72 items-center" />
-            <div className="flex justify-between flex-wrap">
+            <div className="px-6 ">
+            <div className="flex justify-between flex-wrap py-1 border-t border-black ">
               <div className="text-lg font-semibold text-center">
                 {motocross.marque}
               </div>
@@ -46,6 +47,7 @@ function Index() {
               <div className="text-lg font-semibold text-center">
                 {motocross.date}
               </div>
+            </div>
             </div>
           </div>
         </Link>
