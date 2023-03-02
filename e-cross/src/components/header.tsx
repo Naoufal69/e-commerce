@@ -11,7 +11,9 @@ function Header() {
         </Link>
       </div>
       <div className="flex w-3/4 justify-end">
-        <img src={caddi} alt="Image droite" />
+        <Link to="/Pannier">
+          <img src={caddi} alt="Image droite" className="h-20" />
+        </Link>
         <Link to="/Profile">
           <img src={account} alt="Image droite" className="h-20" />
         </Link>

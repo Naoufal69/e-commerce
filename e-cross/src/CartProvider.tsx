@@ -5,9 +5,20 @@ interface CartProviderProps {
 }
 type CartAction = { type: string; payload?: CartItem };
 // type pour le contexte
-type CartItem = { count: number; id: string };
+type CartItem = {
+  count: number;
+  date: number;
+  modele: string;
+  prix: number;
+  marque: string;
+  image: string;
+  id: string;
+  itemid?: number
+};
 
-const CartContext = createContext({} as { cart: CartItem[]; dispatchCart: any });
+const CartContext = createContext(
+  {} as { cart: CartItem[]; dispatchCart: any }
+);
 
 const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   // initialise le contexte
@@ -20,13 +31,13 @@ const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       case "add":
         return [...state, action.payload!];
       case "remove":
-      // return state.filter((item) => item.id !== action.payload!.id);
+      const tmpCart = [...state];
+      tmpCart.splice(action.payload!.itemid!,1);
+      return tmpCart;
       default:
         return state;
     }
   }
-
-  
 
   return (
     <CartContext.Provider value={{ cart, dispatchCart }}>

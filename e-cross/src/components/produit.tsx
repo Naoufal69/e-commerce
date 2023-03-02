@@ -129,7 +129,7 @@ function Produit() {
             <div>
               <button
                 onClick={() =>
-                  dispatchCart({ type: "add", payload: { count: state.count, id: motocross.id } })
+                  dispatchCart({ type: "add", payload: { count: state.count, date: motocross.date, modele: motocross.modele, prix: motocross.prix, marque: motocross.marque, image: motocross.image, id: motocross.id } })
                 }
                 disabled={state.count === 0}
                 className="bg-black text-white border-black rounded-md border-2 p-4"
