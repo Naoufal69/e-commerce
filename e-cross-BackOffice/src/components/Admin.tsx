@@ -48,9 +48,9 @@ function Admin() {
   };
 
   return (
-    <div className="flex flex-col justify-center m-auto w-3/4 mt-10 ">
-      {commande.map((commande,index)=><div className="mb-10 rounded-md w-full shadow-lg min-w-fit  " key={index}>
-      <div className=" flex align-content: center  m-2">
+    <div className="flex flex-col justify-center m-auto w-3/4 mt-10 min-w-fit ">
+      {commande.map((commande,index)=><div className="mb-10 rounded-md w-full shadow-lg" key={index}>
+      <div className=" flex align-content: center m-2">
         <div className="w-2/8 ">
             <div className="flex space-x-16 text-lg font-bold text-center border-b border-black ">
             <div>{commande.produit_marque}</div>
@@ -60,7 +60,7 @@ function Admin() {
           <img src={commande.image} alt="Image de commande" className=" w-50 h-40 object-cover "/>
         </div>
 
-        <div className="flex w-2/4 mt-0 mb-0 ml-20 m-auto flex-col ">
+        <div className="flex w-2/4 mt-0 mb-0 ml-20 m-auto flex-col min-w-fit ">
           
           <div className="flex  w-full h-8 border-t border-black">
             <div className="text-lg font-semibold ml-2 m-auto">
@@ -103,10 +103,10 @@ function Admin() {
 
         </div>
         <div className="w-1/6 flex flex-col">
-          <button onClick={() => updateValideCommande(commande.id,1)} className="bg-black hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mt-10 ml-6 mr-6">
+          <button onClick={() => updateValideCommande(commande.id,1)} className="bg-black hover:bg-green-800 rounded-md shadow-lg text-white font-bold py-2 px-4  mt-10 ml-6 mr-6">
             ✅
           </button>
-          <button onClick={() => updateInvalideCommande(commande.id,2)} className="bg-black hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mt-10 ml-6 mr-6">
+          <button onClick={() => updateInvalideCommande(commande.id,2)} className="bg-black hover:bg-red-800 text-white font-bold py-2 px-4 rounded-md shadow-lg mt-10 ml-6 mr-6">
             ❌
           </button>
         </div>

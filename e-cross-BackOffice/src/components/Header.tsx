@@ -6,16 +6,11 @@ function Header() {
   return (
     <header className="h-20 w-full min-w-full bg-black flex justify-between">
       <div className="h-20">
-        <Link to="/">
+
           <img src={logo} alt="Image gauche" className="h-20" />
-        </Link>
+
       </div>
-      <div className="flex w-3/4 justify-end">
-        <img src={caddi} alt="Image droite" />
-        <Link to="/Profile">
-          <img src={account} alt="Image droite" className="h-20" />
-        </Link>
-      </div>
+      
     </header>
   );
 }
