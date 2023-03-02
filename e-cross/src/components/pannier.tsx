@@ -15,7 +15,7 @@ function Pannier() {
   };
   const navigate = useNavigate();
 
-  const handleSubmit = (command: CartItem ) => {
+  const handleSubmit = () => {
     if (localStorage.getItem("idToken") !== null) {
       const jwt = parseJWT(localStorage.getItem("idToken") as string);
       if (jwt.exp < Date.now() / 1000) {
@@ -33,9 +33,9 @@ function Pannier() {
 
   return (
     <div className="flex flex-col justify-center m-auto w-3/4 mt-10 min-w-fit ">
-        {isOpen && <Validation onClose={() => setIsOpen(false)} />}
       {cart.map((commande, index) => (
         <div className="mb-10 rounded-md w-full shadow-lg" key={index}>
+          {isOpen ? <Validation commande={commande} onClose={() => setIsOpen(false)}/> : null}
           <div className=" flex align-content: center m-2">
             <div className="w-2/8 ">
               <div className="flex space-x-16 text-lg font-bold text-center border-b border-black ">
@@ -76,7 +76,7 @@ function Pannier() {
             </div>
             <div className="w-1/6 flex flex-col">
             <button
-                onClick={() => handleSubmit(commande)}
+                onClick={() => handleSubmit()}
                 className="bg-black hover:bg-green-800 rounded-md shadow-lg text-white font-bold py-2 px-4  mt-10 ml-6 mr-6"
               >
                 ✅

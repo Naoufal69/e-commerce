@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { CartItem } from "../../CartProvider";
+import { db } from "../../firebase.config";
+import { collection, addDoc } from "firebase/firestore";
 
-function Validation({ onClose }: { onClose: () => void }) {
+function Validation({ commande, onClose }: { commande: CartItem, onClose: () => void }) {
   type ModalProps = {
-    onClose: () => void;
     commande: CartItem;
+    onClose: () => void;
   };
   const [mail, setMail] = useState("");
   const [ville, setVille] = useState("");
@@ -24,7 +26,26 @@ function Validation({ onClose }: { onClose: () => void }) {
     setCode_postale(e.target.value);
   };
 
-  const handleSubmit = () => {};
+  const handleSubmit = async (commande: CartItem) => {
+    const ref = collection(db, "Commande");
+    const data = {
+        mail : mail,
+        ville : ville,
+        addresse : adresse,
+        code_postal : code_postale,
+        produit_date : commande.date,
+        produit_marque : commande.marque,
+        produit_modele : commande.modele,
+        quantite : commande.count,
+    }
+    addDoc(ref, data)
+        .then(() => {
+            console.log("Document successfully written!");
+        })
+        .catch((error) => {
+            console.error("Error writing document: ", error);
+        });
+  };
 
   return (
     <div>
@@ -83,7 +104,7 @@ function Validation({ onClose }: { onClose: () => void }) {
                 <button
                   className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                   type="button"
-                  onClick={() => handleSubmit()}
+                  onClick={() => handleSubmit(commande)}
                 >
                   Submit
                 </button>
