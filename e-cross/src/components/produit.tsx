@@ -8,10 +8,30 @@ function Produit() {
   const [idMotocross, setIdMoto] = useState(id);
   const [motocross, setMoto] = useState([] as MotoCross[]);
   const initialState = { count: 0 };
+  const initialCartState: CartItem[] = [];
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [cart, dispatchCart] = useReducer(cartReducer, initialCartState);
+
+  type CartItem = { count: number; id: string };
+
 
   type CountAction = { type: string };
   type CountState = { count: number };
+
+
+  type CartAction = { type: string, payload?: CartItem };
+  ;
+
+  function cartReducer(state: CartItem[], action: CartAction) {
+    switch (action.type) {
+      case "add":
+        return [ ...state, action.payload!];
+      // case "remove":
+      //   return { payload: { count: 0, id: action.payload.id } };
+      default:
+        return state;
+    }
+  }
 
   function reducer(state: CountState, action: CountAction) {
     switch (action.type) {
@@ -23,6 +43,10 @@ function Produit() {
         throw new Error();
     }
   }
+
+  useEffect(() => {
+    console.log("Cart", cart);
+  }, [cart]);
 
   type MotoCross = {
     date: number;
@@ -42,7 +66,8 @@ function Produit() {
     setMoto([]);
     if (docSnap.exists()) {
       const currentMotocross = docSnap.data() as MotoCross;
-      loadedMotocross.push({ ...currentMotocross });
+      const id = docSnap.id;
+      loadedMotocross.push({ ...currentMotocross, id });
     } else {
       console.log("No such document!");
     }
@@ -56,75 +81,85 @@ function Produit() {
   return (
     <div>
       {motocross.map((motocross, index) => (
-        <div key={index} className="flex mt-10 mx-10 rounded-md shadow-md">
-          <div className="w-1/3">
-            <img src={motocross.image} className="w-82 h-72 items-center" />
+        <div>
+          <div key={index} className="flex mt-10 mx-10 rounded-md shadow-md">
+            <div className="w-1/3">
+              <img src={motocross.image} className="w-82 h-72 items-center" />
+            </div>
+            <div className="flex align-content: center w-1/3 mr-5 justify-between flex-wrap">
+              <div className="flex w-full h-8 border-t-2 border-black">
+                <div className="flex text-lg font-semibold w-full ml-2 m-auto">
+                  <h2>Marque :</h2>
+                  <div className="text-base font-semibold m-auto mr-2">
+                    {motocross.marque}
+                  </div>
+                </div>
+              </div>
+              <div className="flex w-full h-8 border-t-2 border-black">
+                <div className="flex text-lg font-semibold w-full ml-2 m-auto">
+                  <h2>Modèle :</h2>
+                  <div className="text-base font-semibold m-auto mr-2">
+                    {motocross.modele}
+                  </div>
+                </div>
+              </div>
+              <div className="flex w-full h-8 border-t-2 border-black">
+                <div className="flex text-lg font-semibold w-full ml-2 m-auto">
+                  <h2>Année : </h2>
+                  <div className="text-base font-semibold m-auto mr-2">
+                    {motocross.date}
+                  </div>
+                </div>
+              </div>
+              <div className="flex w-full h-8 border-t-2 border-black">
+                <div className="flex text-lg font-semibold w-full ml-2 m-auto">
+                  <h2>Prix : </h2>
+                  <div className="text-base font-semibold m-auto mr-2">
+                    {new Intl.NumberFormat().format(motocross.prix)} €
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="text-lg font-semibold border-2 border-black text-justify p-2 w-1/3 rounded-md">
+              <h2 className="underline mb-4">Description :</h2>
+              {motocross.Description}
+            </div>
           </div>
-          <div className="flex align-content: center w-1/3 mr-5 justify-between flex-wrap">
-            <div className="flex w-full h-8 border-t-2 border-black">
-              <div className="flex text-lg font-semibold w-full ml-2 m-auto">
-                <h2>Marque :</h2>
-                <div className="text-base font-semibold m-auto mr-2">
-                  {motocross.marque}
-                </div>
-              </div>
+          <div className="flex items-center mt-9">
+            <div className="mx-8">
+              <button
+                className="h-max bg-black text-white border-black border-2 w-5"
+                onClick={() => dispatch({ type: "decrement" })}
+              >
+                -
+              </button>
+              <input
+                type="text"
+                readOnly={true}
+                className="h-max border-2 border-black text-center w-10"
+                value={state.count}
+              />
+              <button
+                className="h-max bg-black text-white border-black border-2 w-5"
+                onClick={() => dispatch({ type: "increment" })}
+              >
+                +
+              </button>
             </div>
-            <div className="flex w-full h-8 border-t-2 border-black">
-              <div className="flex text-lg font-semibold w-full ml-2 m-auto">
-                <h2>Modèle :</h2>
-                <div className="text-base font-semibold m-auto mr-2">
-                  {motocross.modele}
-                </div>
-              </div>
+            <div>
+              <button
+                onClick={() =>
+                  dispatchCart({ type: "add", payload: { count: state.count, id: motocross.id } })
+                }
+                disabled={state.count === 0}
+                className="bg-black text-white border-black rounded-md border-2 p-4"
+              >
+                Ajouter au panier
+              </button>
             </div>
-            <div className="flex w-full h-8 border-t-2 border-black">
-              <div className="flex text-lg font-semibold w-full ml-2 m-auto">
-                <h2>Année : </h2>
-                <div className="text-base font-semibold m-auto mr-2">
-                  {motocross.date}
-                </div>
-              </div>
-            </div>
-            <div className="flex w-full h-8 border-t-2 border-black">
-              <div className="flex text-lg font-semibold w-full ml-2 m-auto">
-                <h2>Prix : </h2>
-                <div className="text-base font-semibold m-auto mr-2">
-                  {new Intl.NumberFormat().format(motocross.prix)} €
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="text-lg font-semibold border-2 border-black text-justify p-2 w-1/3 rounded-md">
-            <h2 className="underline mb-4">Description :</h2>
-            {motocross.Description}
           </div>
         </div>
       ))}
-      <div className="flex items-center mt-9">
-        <div className="mx-8">
-          <button
-            className="h-max bg-black text-white border-black border-2 w-5"
-            onClick={() => dispatch({ type: "decrement" })}
-          >
-            -
-          </button>
-          <input
-            type="text"
-            readOnly={true}
-            className="h-max border-2 border-black text-center w-10"
-            value={state.count}
-          />
-          <button
-            className="h-max bg-black text-white border-black border-2 w-5"
-            onClick={() => dispatch({ type: "increment" })}
-          >
-            +
-          </button>
-        </div>
-        <div>
-            <button className="bg-black text-white border-black rounded-md border-2 p-4">Ajouter au panier</button>
-        </div>
-      </div>
     </div>
   );
 }
