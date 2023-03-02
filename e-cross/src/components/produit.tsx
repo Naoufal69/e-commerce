@@ -79,87 +79,78 @@ function Produit() {
   }, []);
 
   return (
-    <div>
+    <div className="w-full h-full flex items-center justify-center">
+    <div className=" mt-10 mx-10 rounded-md shadow-xl ">
       {motocross.map((motocross, index) => (
-        <div>
-          <div key={index} className="flex mt-10 mx-10 rounded-md shadow-md">
-            <div className="w-1/3">
-              <img src={motocross.image} className="w-82 h-72 items-center" />
-            </div>
-            <div className="flex align-content: center w-1/3 mr-5 justify-between flex-wrap">
-              <div className="flex w-full h-8 border-t-2 border-black">
-                <div className="flex text-lg font-semibold w-full ml-2 m-auto">
-                  <h2>Marque :</h2>
-                  <div className="text-base font-semibold m-auto mr-2">
-                    {motocross.marque}
-                  </div>
-                </div>
+        <div key={index} className="flex">
+          <div className="my-auto mx-10 w-1/3 ">
+            <img src={motocross.image} className="mt-100 items-center" />
+          </div>
+          <div className="flex align-content: center w-1/3 mx-10  justify-between flex-wrap ">
+            <div className="flex w-full h-8 border-t border-black mt-4">
+              <div className="flex text-lg font-semibold w-full ml-2 m-auto">
+                <h2>Marque :</h2>
               </div>
-              <div className="flex w-full h-8 border-t-2 border-black">
-                <div className="flex text-lg font-semibold w-full ml-2 m-auto">
-                  <h2>Modèle :</h2>
-                  <div className="text-base font-semibold m-auto mr-2">
-                    {motocross.modele}
-                  </div>
-                </div>
-              </div>
-              <div className="flex w-full h-8 border-t-2 border-black">
-                <div className="flex text-lg font-semibold w-full ml-2 m-auto">
-                  <h2>Année : </h2>
-                  <div className="text-base font-semibold m-auto mr-2">
-                    {motocross.date}
-                  </div>
-                </div>
-              </div>
-              <div className="flex w-full h-8 border-t-2 border-black">
-                <div className="flex text-lg font-semibold w-full ml-2 m-auto">
-                  <h2>Prix : </h2>
-                  <div className="text-base font-semibold m-auto mr-2">
-                    {new Intl.NumberFormat().format(motocross.prix)} €
-                  </div>
-                </div>
+              <div className="text-base m-auto mr-2">
+                {motocross.marque}
               </div>
             </div>
-            <div className="text-lg font-semibold border-2 border-black text-justify p-2 w-1/3 rounded-md">
-              <h2 className="underline mb-4">Description :</h2>
+            <div className="flex w-full h-8 border-t border-black mt-6">
+              <div className="flex text-lg font-semibold w-full ml-2 m-auto">
+                <h2>Modèle :</h2>
+                </div>
+                <div className="text-base m-auto mr-2">
+                  {motocross.modele}
+                </div>
+            </div>
+            <div className="flex w-full h-8 border-t border-black mt-6">
+              <div className="flex text-lg font-semibold w-full ml-2 m-auto">
+                <h2>Année : </h2>
+              </div>
+              <div className="text-base m-auto mr-2">
+                {motocross.date}
+              </div> 
+            </div>
+            <div className="flex w-full h-8 border-t border-black mt-6">
+              <div className="flex text-lg font-semibold w-full ml-2 m-auto">
+                <h2>Prix : </h2>
+              </div>
+                <div className="text-base m-auto mr-2 flex">
+                  {new Intl.NumberFormat().format(motocross.prix)}<h1>&nbsp;€</h1>
+                </div>
+            </div>
+            <div className="text-lg mt-6 mb-4 text-justify p-2 w-full rounded-md border border-black rounded-l-md shadow-lg">
+              <h2 className="underline font-semibold mb-4">Description :</h2>
               {motocross.Description}
             </div>
           </div>
-          <div className="flex items-center mt-9">
-            <div className="mx-8">
-              <button
-                className="h-max bg-black text-white border-black border-2 w-5"
-                onClick={() => dispatch({ type: "decrement" })}
-              >
+
+          <div className=" mx-auto w-1/6  ">
+            <div className=" w-fit h-fit mx-auto mt-80 ">
+              <button className="h-max bg-black text-white border-black border-2 w-5  rounded-l-md shadow-lg" onClick={() => dispatch({ type: "decrement" })}>
                 -
               </button>
-              <input
-                type="text"
-                readOnly={true}
-                className="h-max border-2 border-black text-center w-10"
-                value={state.count}
-              />
-              <button
-                className="h-max bg-black text-white border-black border-2 w-5"
-                onClick={() => dispatch({ type: "increment" })}
-              >
+              <input type="text" readOnly={true} className="h-max border-2 border-black text-center w-10 " value={state.count}/>
+              <button className="h-max bg-black text-white border-black border-2 w-5 rounded-r-md shadow-lg" onClick={() => dispatch({ type: "increment" })}>
                 +
               </button>
             </div>
-            <div>
-              <button
-                onClick={() =>
-                  dispatchCart({ type: "add", payload: { count: state.count, id: motocross.id } })
-                }
-                disabled={state.count === 0}
-                className="bg-black text-white border-black rounded-md border-2 p-4"
-              >
-                Ajouter au panier
-              </button>
+            <div className=" w-fit mx-auto mt-5">
+                <button
+              onClick={() =>
+                dispatchCart({ type: "add", payload: { count: state.count, id: motocross.id } })
+              }
+              disabled={state.count === 0}
+              className="bg-black text-white border-black rounded-md border-2 p-4"
+            >
+              Ajouter au panier
+            </button>
             </div>
           </div>
         </div>
+        
       ))}
+    </div>
     </div>
   );
 }
