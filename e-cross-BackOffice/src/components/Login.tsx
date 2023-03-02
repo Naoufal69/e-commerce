@@ -8,7 +8,7 @@ function Login() {
   const [mail, setMail] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(false);
-  const [error, setError] = useState(0);
+  const [checkerror, setError] = useState(0);
 
   useEffect(() => {
     if (localStorage.getItem("idToken")) {
@@ -44,8 +44,9 @@ function Login() {
         })
         .catch((error) => {
           console.log(error.message);
-          setError(1);
         });
+    }else {
+      setError(1)
     }
   };
 
@@ -61,7 +62,7 @@ function Login() {
             >
               Adresse mail
             </label>
-            <div className={error === 1 ? "bg-white" : " outline outline-offset-1 outline-2 outline-red-500 rounded-md"}>
+            <div className={checkerror === 1 ? " outline outline-offset-1 outline-2 outline-red-500 rounded-md": "bg-white "}>
               <input
                 type="email"
                 className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-black-400 focus:ring-black-300 focus:outline-none focus:ring focus:ring-opacity-40"
@@ -76,7 +77,7 @@ function Login() {
             >
               Mot de passe
             </label>
-            <div className={error === 1 ? "bg-white" : " outline outline-offset-1 outline-2 outline-red-500 rounded-md"}>
+            <div className={checkerror === 1 ? "bg-white outline outline-offset-1 outline-2 outline-red-500 rounded-md" : "bg-white"}>
               <input
                 type="password"
                 className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-black-400 focus:ring-black-300 focus:outline-none focus:ring focus:ring-opacity-40"
