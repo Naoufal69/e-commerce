@@ -5,7 +5,6 @@ import { db } from "../firebase.config";
 
 function Produit() {
   const { id } = useParams();
-  const [idMotocross, setIdMoto] = useState(id);
   const [motocross, setMoto] = useState([] as MotoCross[]);
   const initialState = { count: 0 };
   const initialCartState: CartItem[] = [];
@@ -20,14 +19,13 @@ function Produit() {
 
 
   type CartAction = { type: string, payload?: CartItem };
-  ;
 
   function cartReducer(state: CartItem[], action: CartAction) {
     switch (action.type) {
       case "add":
         return [ ...state, action.payload!];
-      // case "remove":
-      //   return { payload: { count: 0, id: action.payload.id } };
+      case "remove":
+        // return state.filter((item) => item.id !== action.payload!.id);
       default:
         return state;
     }
@@ -84,13 +82,13 @@ function Produit() {
         <div>
           <div key={index} className="flex mt-10 mx-10 rounded-md shadow-md">
             <div className="w-1/3">
-              <img src={motocross.image} className="w-82 h-72 items-center" />
+              <img key={index} src={motocross.image} className="w-82 h-72 items-center" />
             </div>
             <div className="flex align-content: center w-1/3 mr-5 justify-between flex-wrap">
               <div className="flex w-full h-8 border-t-2 border-black">
                 <div className="flex text-lg font-semibold w-full ml-2 m-auto">
                   <h2>Marque :</h2>
-                  <div className="text-base font-semibold m-auto mr-2">
+                  <div key={index} className="text-base font-semibold m-auto mr-2">
                     {motocross.marque}
                   </div>
                 </div>

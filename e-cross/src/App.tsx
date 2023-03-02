@@ -1,4 +1,5 @@
 import { useRoutes } from "react-router-dom";
+import CartProvider from "./CartProvider";
 import Index from "./components";
 import Header from "./components/header";
 import Login from "./components/login";
@@ -15,12 +16,10 @@ const App = () => {
     { path: "/Produit/:id", element: <Produit /> },
   ]);
 
-  
-
   return (
     <div className="App">
       <Header />
-      {routes}
+      <CartProvider>{routes}</CartProvider>
     </div>
   );
 };
