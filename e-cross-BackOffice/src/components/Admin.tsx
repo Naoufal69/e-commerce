@@ -46,22 +46,25 @@ function Admin() {
     return JSON.parse(window.atob(base64));
   };
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     if (localStorage.getItem("idToken") !== null) {
       const jwt = parseJWT(localStorage.getItem("idToken") as string);
       if (jwt.exp < Date.now() / 1000) {
         localStorage.removeItem("idToken");
-        navigate("/Connexion");
+        navigate("/");
       } else {
+        localStorage.removeItem("idToken");
         loadCommande();
       }
     } else {
-      navigate("/Connexion");
+      localStorage.removeItem("idToken");
+      navigate("/");
     }
   }, []);
 
   useEffect(() => {
+    localStorage.removeItem("idToken");
     loadCommande();
   }, []);
 
