@@ -140,16 +140,16 @@ function Admin() {
                 </div>
               </div>
             </div>
-            <div className="w-1/6 flex flex-col">
+            <div className="w-1/6 flex flex-col ">
               <button
                 onClick={() => updateValideCommande(commande.id, 1)}
-                className="bg-black hover:bg-green-800 rounded-md shadow-lg text-white font-bold py-2 px-4  mt-10 ml-6 mr-6"
+                className="bg-black hover:bg-green-800 rounded-md shadow-lg text-white font-bold py-2 px-4  mt-10 ml-6 mr-6 transition ease-in-out delay-50  hover:scale-110  duration-300 "
               >
                 ✅
               </button>
               <button
                 onClick={() => updateInvalideCommande(commande.id, 2)}
-                className="bg-black hover:bg-red-800 text-white font-bold py-2 px-4 rounded-md shadow-lg mt-10 ml-6 mr-6"
+                className="bg-black hover:bg-red-800 text-white font-bold py-2 px-4 rounded-md shadow-lg mt-10 ml-6 mr-6 transition ease-in-out delay-50  hover:scale-110  duration-300"
               >
                 ❌
               </button>
