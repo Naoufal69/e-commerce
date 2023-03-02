@@ -5,7 +5,7 @@ interface CartProviderProps {
 }
 type CartAction = { type: string; payload?: CartItem };
 // type pour le contexte
-type CartItem = {
+export type CartItem = {
   count: number;
   date: number;
   modele: string;
