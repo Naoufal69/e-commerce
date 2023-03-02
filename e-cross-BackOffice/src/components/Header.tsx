@@ -27,21 +27,21 @@ function Header() {
                  before:left-1/2
                  before:-translate-x-1/2
                  before:w-0
-                 before:h-1.5
+                 before:h-1
                  before:rounded-full
                  before:opacity-0
                  before:transition-all
-                 before:duration-500
+                 before:duration-300
                  before:bg-gradient-to-r
                  before:from-white
-                 before:via-zinc-700
+                 before:via-white
                  before:to-white
                  hover:before:w-full
                  hover:before:opacity-100"
       >
         <Link to="/">E-Cross</Link>
       </div>
-      <div className="text-white my-auto mr-2 font-mono text-xl font-bold flex justify-end ">
+      <div className="text-white my-auto mr-2 font-mono text-xl font-bold flex justify-end animate-bounce ">
         Admin
       </div>
     </header>
