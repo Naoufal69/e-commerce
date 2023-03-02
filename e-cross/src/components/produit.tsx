@@ -1,36 +1,18 @@
 import { collection, doc, getDoc } from "firebase/firestore";
-import { useEffect, useState, useReducer } from "react";
+import { useEffect, useState, useReducer, useContext } from "react";
 import { useParams } from "react-router-dom";
+import { CartContext } from "../CartProvider";
 import { db } from "../firebase.config";
 
 function Produit() {
   const { id } = useParams();
   const [motocross, setMoto] = useState([] as MotoCross[]);
   const initialState = { count: 0 };
-  const initialCartState: CartItem[] = [];
   const [state, dispatch] = useReducer(reducer, initialState);
-  const [cart, dispatchCart] = useReducer(cartReducer, initialCartState);
-
-  type CartItem = { count: number; id: string };
-
+  const {cart,dispatchCart} = useContext(CartContext);
 
   type CountAction = { type: string };
   type CountState = { count: number };
-
-
-  type CartAction = { type: string, payload?: CartItem };
-
-  function cartReducer(state: CartItem[], action: CartAction) {
-    switch (action.type) {
-      case "add":
-        return [ ...state, action.payload!];
-      case "remove":
-        // return state.filter((item) => item.id !== action.payload!.id);
-      default:
-        return state;
-    }
-  }
-
   function reducer(state: CountState, action: CountAction) {
     switch (action.type) {
       case "increment":

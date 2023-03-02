@@ -7,6 +7,8 @@ type CartAction = { type: string; payload?: CartItem };
 // type pour le contexte
 type CartItem = { count: number; id: string };
 
+const CartContext = createContext({} as { cart: CartItem[]; dispatchCart: any });
+
 const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   // initialise le contexte
   const initialCartState: CartItem[] = [];
@@ -24,7 +26,7 @@ const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     }
   }
 
-  const CartContext = createContext({ cart, dispatchCart });
+  
 
   return (
     <CartContext.Provider value={{ cart, dispatchCart }}>
@@ -34,3 +36,4 @@ const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
 };
 
 export default CartProvider;
+export { CartContext };
