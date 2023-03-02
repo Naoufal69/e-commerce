@@ -1,6 +1,7 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "./../firebase.config";
+import { auth, db } from "./../firebase.config";
+import { collection, query, where, getDocs } from "firebase/firestore";
 
 function Login() {
   const [mail, setMail] = useState("");
@@ -19,9 +20,15 @@ function Login() {
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
   };
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!user) {
+    // Vérifier si l'adresse e-mail est dans la collection "admin"
+    const q = query(collection(db, "Admin"), where("mail", "==", mail));
+    const querySnapshot = await getDocs(q);
+    const isAdmin = querySnapshot.docs.length > 0;
+    
+    if (isAdmin) {
       signInWithEmailAndPassword(auth, mail, password)
         .then((userCredential) => {
           return userCredential.user.getIdToken();
@@ -35,11 +42,12 @@ function Login() {
         });
     }
   };
+
   return (
     <div className="relative flex flex-col justify-center min-h-screen overflow-hidden ">
       <div className="w-full p-6 m-auto bg-white rounded-md shadow-md lg:max-w-xl">
         <h1 className="text-3xl font-semibold text-center">Connexion</h1>
-        <form className="mt-6">
+        <form className="mt-6" onSubmit={handleSubmit}>
           <div className="mb-2">
             <label
               htmlFor="email"
