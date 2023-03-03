@@ -55,8 +55,6 @@ function Produit() {
       const currentMotocross = docSnap.data() as MotoCross;
       const id = docSnap.id;
       loadedMotocross.push({ ...currentMotocross, id });
-    } else {
-      console.log("No such document!");
     }
     setMoto(loadedMotocross);
   };

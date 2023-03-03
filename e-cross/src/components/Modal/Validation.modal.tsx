@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { CartContext, CartItem } from "../../CartProvider";
 import { db } from "../../firebase.config";
 import { collection, addDoc } from "firebase/firestore";
@@ -70,13 +70,35 @@ function Validation({
     dispatchCart({ type: "remove", payload: { itemid: id } });
   };
 
+  /**
+   * It takes a JWT token, splits it into three parts, takes the second part, replaces the dashes and
+   * underscores with plus signs and slashes, and then decodes it
+   * @param {string} token - The JWT token that you want to parse.
+   * @returns The token is being parsed and the payload is being returned.
+   */
+  const parseJWT = (token: string) => {
+    const base64Url = token.split(".")[1];
+    const base64 = base64Url.replace("-", "+").replace("_", "/");
+    return JSON.parse(window.atob(base64));
+  };
+
+  useEffect(() => {
+    const jwt = parseJWT(localStorage.getItem("idToken") as string);
+    setMail(jwt.email);
+  }, []);
 
   /**
    * I want to send the data of the cart to the firebase database.
    * @param {CartItem} commande - CartItem
    */
   const handleSubmit = async (commande: CartItem) => {
-    console.log(commande.description)
+    const jwt = parseJWT(localStorage.getItem("idToken") as string);
+    //Explaining the if statement
+    //jwt.exp is the expiration time of the token
+    //Date.now() / 1000 is the current time in seconds
+    //If the expiration time is less than the current time, then the token is expired
+    console.log("comparaison ", Date.now() / 1000);
+    console.log("jwt ", jwt.exp);
     const ref = collection(db, "Commande");
     const data = {
       mail: mail,
@@ -93,15 +115,15 @@ function Validation({
       description: commande.description,
       etat: 0,
     };
+    console.log("data ", data);
     addDoc(ref, data)
-      .then(() => {
-      })
+      .then(() => {})
       .catch((error) => {
         setErr(true);
       });
-      const itemToRemoove = cart.find((item) => item.id === commande.id)
-      handleRemove(itemToRemoove?.itemid as number);
-      onClose();
+    const itemToRemoove = cart.find((item) => item.id === commande.id);
+    handleRemove(itemToRemoove?.itemid as number);
+    onClose();
   };
 
   return (
@@ -110,7 +132,13 @@ function Validation({
         <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
           <div className="relative w-auto my-6 mx-auto max-w-3xl">
             {/*content*/}
-            <div className={err ? "border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none" : "border-2 border-red-600 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none"}>
+            <div
+              className={
+                err
+                  ? "border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none"
+                  : "border-2 border-red-600 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none"
+              }
+            >
               {/*header*/}
               <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
                 <h3 className="text-3xl font-semibold">
@@ -128,7 +156,8 @@ function Validation({
                   type="text"
                   placeholder="Mail"
                   className="w-full border-2 active:border-black rounded-md p-2 mb-2"
-                  onChange={handleMailChange}
+                  value={mail}
+                  disabled
                 />
                 <input
                   type="text"

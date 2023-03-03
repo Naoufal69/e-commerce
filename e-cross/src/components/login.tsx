@@ -53,9 +53,11 @@ function Login() {
         .then((idToken) => {
           localStorage.setItem("idToken", idToken);
           setUser(true);
-          navigate("/Profile");
+          navigate("/");
         })
-        .catch((error) => {});
+        .catch((error) => {
+          setError(1);
+        });
     } else {
       setError(1);
     }

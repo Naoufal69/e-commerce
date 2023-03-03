@@ -1,6 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { collection, query, getDocs, where, doc, deleteDoc } from "firebase/firestore";
+import {
+  collection,
+  query,
+  getDocs,
+  where,
+  doc,
+  deleteDoc,
+} from "firebase/firestore";
 import { db } from "../firebase.config";
 
 function Profil() {
@@ -45,6 +52,7 @@ function Profil() {
     produit_prix: number;
     id: string;
     description: string;
+    etat: number;
   };
 
   /**
@@ -59,10 +67,14 @@ function Profil() {
     querySnapshot.forEach((doc) => {
       const currentCommande = doc.data() as Commande;
       const id = doc.id;
-      loadedCommande.push({...currentCommande, id });
+      loadedCommande.push({ ...currentCommande, id });
     });
-    setCommande(loadedCommande)
-    console.log(loadedCommande);
+    setCommande(loadedCommande);
+  };
+
+  const logout = () => {
+    localStorage.removeItem("idToken");
+    navigate("/Connexion");
   };
 
   /* Checking if the user is logged in and if the token is still valid. If the user is logged in and
@@ -81,16 +93,24 @@ function Profil() {
       navigate("/Connexion");
     }
   }, []);
-  
+
   return (
     <div>
-      <h1 className="flex justify-center mt-5 text-3xl">
+      <div className="grid justify-end">
+        <button
+          onClick={logout}
+          className="bg-black hover:bg-gray-700 text-white font-bold py-2 px-4 rounded h-10 mt-1 mr-1"
+        >
+          Déconnexion
+        </button>
+      </div>
+      <h1 className="flex justify-center text-3xl font-bold">
         Historique des commandes
       </h1>
-      <div className="flex space-x-20 m-5 flex-col mx-20">
+      <div className="flex m-5 flex-col mx-20">
         {commande.map((commande, index) => (
           <div
-            className="rounded-md shadow-md h-1/5 w-full min-w-fit"
+            className="rounded-md shadow-md h-1/5 w-full min-w-fit my-5"
             key={index}
           >
             <div className="flex justify-between">
@@ -118,14 +138,25 @@ function Profil() {
                   </div>
                   <div className="flex justify-between w-1/4 text-lg font-semibold text-center">
                     <h2>Prix total : </h2>
-                    {new Intl.NumberFormat().format(commande.produit_prix*commande.produit_quantite)} €
+                    {new Intl.NumberFormat().format(
+                      commande.produit_prix * commande.produit_quantite
+                    )}{" "}
+                    €
                   </div>
                 </div>
               </div>
               <div className="w-1/5 min-w-max">
-                <button onClick={() => handleDelete(commande.id)} className="bg-black hover:bg-gray-700 text-white font-bold py-2 px-4 rounded h-10 mt-32">
+                <button
+                  onClick={() => handleDelete(commande.id)}
+                  className="bg-black hover:bg-gray-700 text-white font-bold py-2 px-4 rounded h-10 mt-32"
+                >
                   Annuler la commande
                 </button>
+                <div className={commande.etat === 0 ? "text-black w-7/12 flex justify-center" : commande.etat === 1 ? "text-green-500 w-7/12 flex justify-center" : "text-red-500 w-7/12 flex justify-center"}>
+                  <h2 className="text-lg font-semibold">
+                    {commande.etat === 0 ? "En attente" : commande.etat === 1 ? "Validé" : "Invalidé"}
+                  </h2>
+                </div>
               </div>
             </div>
           </div>
