@@ -87,7 +87,7 @@ function Profil() {
       <h1 className="flex justify-center mt-5 text-3xl">
         Historique des commandes
       </h1>
-      <div className="flex space-x-20 m-5 flex-col min-w-full">
+      <div className="flex space-x-20 m-5 flex-col mx-20">
         {commande.map((commande, index) => (
           <div
             className="rounded-md shadow-md h-1/5 w-full min-w-fit"
