@@ -28,23 +28,25 @@ function Index() {
     loadMotocross();
   }, []);
   return (
-    <div className="flex space-x-20 m-5">
+    <div className="flex flex-col md:flex-row md:space-x-20 md:m-5 space-y-10 md:space-y-0 m-2">
       {motocross.map((motocross, index) => (
         <Link to={`/Produit/${motocross.id}`}>
           <div
-            className="rounded-md shadow-md w-1/4 min-w-fit"
+            className="rounded-md shadow-md w-full md:w-1/3 lg:w-1/4 min-w-fit"
             key={index}
           >
             <img src={motocross.image} className="w-82 h-72 items-center" />
-            <div className="flex justify-between flex-wrap">
-              <div className="text-lg font-semibold text-center">
-                {motocross.marque}
-              </div>
-              <div className="text-lg font-semibold text-center">
-                {motocross.modele}
-              </div>
-              <div className="text-lg font-semibold text-center">
-                {motocross.date}
+            <div className="px-6">
+              <div className="flex justify-between flex-wrap py-1 border-t border-black">
+                <div className="text-lg font-semibold text-center">
+                  {motocross.marque}
+                </div>
+                <div className="text-lg font-semibold text-center">
+                  {motocross.modele}
+                </div>
+                <div className="text-lg font-semibold text-center">
+                  {motocross.date}
+                </div>
               </div>
             </div>
           </div>
