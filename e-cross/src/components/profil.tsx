@@ -4,14 +4,28 @@ import { collection, query, getDocs, where, doc, deleteDoc } from "firebase/fire
 import { db } from "../firebase.config";
 
 function Profil() {
+  /**
+   * It takes a JWT token, splits it into three parts, takes the second part, replaces the dashes and
+   * underscores with plus signs and slashes, and then decodes it
+   * @param {string} token - The JWT token that you want to parse.
+   * @returns The token is being parsed and the payload is being returned.
+   */
   const parseJWT = (token: string) => {
     const base64Url = token.split(".")[1];
     const base64 = base64Url.replace("-", "+").replace("_", "/");
     return JSON.parse(window.atob(base64));
   };
 
+  /**
+   * navigate is a function that takes a string as a parameter and returns a promise that navigates to
+   */
   const navigate = useNavigate();
 
+  /**
+   * HandleDelete is a function that takes an id as a parameter and returns a promise that deletes a
+   * document from the database and then loads the commande.
+   * @param {string} id - string
+   */
   const handleDelete = async (id: string) => {
     await deleteDoc(doc(db, "Commande", id));
     loadCommande();
@@ -29,9 +43,13 @@ function Profil() {
     produit_quantite: 2;
     ville: string;
     produit_prix: number;
-    description: string;
     id: string;
+    description: string;
   };
+
+  /**
+   * Load the data from the firestore database and put it in the state of the component.
+   */
   const loadCommande = async () => {
     const jwt = parseJWT(localStorage.getItem("idToken") as string);
     const q = query(collection(db, "Commande"), where("mail", "==", jwt.email));
@@ -44,8 +62,12 @@ function Profil() {
       loadedCommande.push({...currentCommande, id });
     });
     setCommande(loadedCommande)
+    console.log(loadedCommande);
   };
 
+  /* Checking if the user is logged in and if the token is still valid. If the user is logged in and
+  the token is still valid, it loads the commande. If the user is not logged in or the token is not
+  valid, it navigates to the connexion page. */
   useEffect(() => {
     if (localStorage.getItem("idToken") !== null) {
       const jwt = parseJWT(localStorage.getItem("idToken") as string);
@@ -59,6 +81,7 @@ function Profil() {
       navigate("/Connexion");
     }
   }, []);
+  
   return (
     <div>
       <h1 className="flex justify-center mt-5 text-3xl">

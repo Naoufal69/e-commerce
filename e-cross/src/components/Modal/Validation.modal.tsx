@@ -1,9 +1,15 @@
-import { useState } from "react";
-import { CartItem } from "../../CartProvider";
+import { useContext, useState } from "react";
+import { CartContext, CartItem } from "../../CartProvider";
 import { db } from "../../firebase.config";
 import { collection, addDoc } from "firebase/firestore";
 
-function Validation({ commande, onClose }: { commande: CartItem, onClose: () => void }) {
+function Validation({
+  commande,
+  onClose,
+}: {
+  commande: CartItem;
+  onClose: () => void;
+}) {
   type ModalProps = {
     commande: CartItem;
     onClose: () => void;
@@ -12,39 +18,90 @@ function Validation({ commande, onClose }: { commande: CartItem, onClose: () => 
   const [ville, setVille] = useState("");
   const [adresse, setAdresse] = useState("");
   const [code_postale, setCode_postale] = useState("");
+  const [err, setErr] = useState(true);
+  const { cart, dispatchCart } = useContext(CartContext);
 
-  const handleMailChange = (e: any) => {
+  /**
+   * The function takes an event as an argument, and sets the state of the mail variable to the value
+   * of the event's target.
+   * @param e - React.ChangeEvent<HTMLInputElement>
+   */
+  const handleMailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMail(e.target.value);
   };
-  const handleVilleChange = (e: any) => {
+  /**
+   * "The function handleVilleChange takes an event of type React.ChangeEvent and returns nothing."
+   *
+   * The React.ChangeEvent is a generic type. The generic type is HTMLInputElement
+   * @param e - React.ChangeEvent<HTMLInputElement>
+   */
+  const handleVilleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setVille(e.target.value);
   };
-  const handleAdresseChange = (e: any) => {
+
+  /**
+   * "The function handleAdresseChange takes an event of type React.ChangeEvent<HTMLInputElement> and
+   * returns nothing."
+   *
+   * The React.ChangeEvent<HTMLInputElement> is a generic type. The generic type is HTMLInputElement
+   * @param e - React.ChangeEvent<HTMLInputElement>
+   */
+  const handleAdresseChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAdresse(e.target.value);
   };
-  const handleCode_postaleChange = (e: any) => {
+  /**
+   * "The function handleCode_postaleChange takes an event of type React.ChangeEvent and returns
+   * nothing."
+   *
+   * The React.ChangeEvent type is a generic type that takes the type of the element that is changing.
+   * In this case, it's an HTMLInputElement
+   * @param e - React.ChangeEvent<HTMLInputElement>
+   */
+  const handleCode_postaleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCode_postale(e.target.value);
   };
 
+  /**
+   * HandleRemove is a function that takes an id of type number and returns a function that takes no
+   * arguments and returns nothing.
+   * @param {number} id - number - the id of the item to be removed
+   */
+  const handleRemove = (id: number) => {
+    dispatchCart({ type: "remove", payload: { itemid: id } });
+  };
+
+
+  /**
+   * I want to send the data of the cart to the firebase database.
+   * @param {CartItem} commande - CartItem
+   */
   const handleSubmit = async (commande: CartItem) => {
+    console.log(commande.description)
     const ref = collection(db, "Commande");
     const data = {
-        mail : mail,
-        ville : ville,
-        addresse : adresse,
-        code_postal : code_postale,
-        produit_date : commande.date,
-        produit_marque : commande.marque,
-        produit_modele : commande.modele,
-        quantite : commande.count,
-    }
+      mail: mail,
+      ville: ville,
+      adresse: adresse,
+      code_postal: code_postale,
+      produit_date: commande.date,
+      produit_marque: commande.marque,
+      produit_modele: commande.modele,
+      produit_prix: commande.prix,
+      produit_quantite: commande.count,
+      image: commande.image,
+      date: commande.date,
+      description: commande.description,
+      etat: 0,
+    };
     addDoc(ref, data)
-        .then(() => {
-            console.log("Document successfully written!");
-        })
-        .catch((error) => {
-            console.error("Error writing document: ", error);
-        });
+      .then(() => {
+      })
+      .catch((error) => {
+        setErr(true);
+      });
+      const itemToRemoove = cart.find((item) => item.id === commande.id)
+      handleRemove(itemToRemoove?.itemid as number);
+      onClose();
   };
 
   return (
@@ -53,7 +110,7 @@ function Validation({ commande, onClose }: { commande: CartItem, onClose: () => 
         <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
           <div className="relative w-auto my-6 mx-auto max-w-3xl">
             {/*content*/}
-            <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+            <div className={err ? "border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none" : "border-2 border-red-600 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none"}>
               {/*header*/}
               <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
                 <h3 className="text-3xl font-semibold">

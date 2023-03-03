@@ -13,6 +13,13 @@ function Produit() {
 
   type CountAction = { type: string };
   type CountState = { count: number };
+
+  /**
+   * The reducer function takes in the current state and an action, and returns the next state
+   * @param {CountState} state - CountState - The current state of the application.
+   * @param {CountAction} action - CountAction - The action object that was dispatched.
+   * @returns An object with a count property.
+   */
   function reducer(state: CountState, action: CountAction) {
     switch (action.type) {
       case "increment":
@@ -24,10 +31,6 @@ function Produit() {
     }
   }
 
-  useEffect(() => {
-    console.log("Cart", cart);
-  }, [cart]);
-
   type MotoCross = {
     date: number;
     modele: string;
@@ -38,6 +41,10 @@ function Produit() {
     Description: string;
   };
 
+  /**
+   * It's trying to load a document from a collection in Firestore and then set the state of the
+   * component to the data that just loaded.
+   */
   const loadOneMotocross = async () => {
     const refMoto = collection(db, "motocross");
     const docMoto = doc(refMoto, id);
@@ -54,6 +61,7 @@ function Produit() {
     setMoto(loadedMotocross);
   };
 
+  /* Play the function that will load the data */
   useEffect(() => {
     loadOneMotocross();
   }, []);
@@ -141,11 +149,12 @@ function Produit() {
                           marque: motocross.marque,
                           image: motocross.image,
                           id: motocross.id,
+                          description: motocross.Description,
                         },
-                      });               
+                      });
                       alert(
                         "Vous avez ajouté " +
-                        state.count +
+                          state.count +
                           " " +
                           motocross.modele +
                           " au panier"

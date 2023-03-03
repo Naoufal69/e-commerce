@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "./../firebase.config";
 import { useNavigate } from "react-router-dom";
@@ -15,14 +15,34 @@ function Login() {
     }
   }, []);
 
+  /**
+   * navigate is a function that takes a string as a parameter and returns a promise that navigates to
+   */
   const navigate = useNavigate();
 
+  /**
+   * The function takes an event of type React.ChangeEvent<HTMLInputElement>
+   * that takes the value of the input and sets it to the state. for the mail
+   * @param event - React.ChangeEvent<HTMLInputElement>
+   */
   const handleMailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setMail(event.target.value);
   };
+
+  /**
+   * The function takes an event of type React.ChangeEvent<HTMLInputElement>
+   * that takes the value of the input and sets it to the state. for the password
+   * @param event - React.ChangeEvent<HTMLInputElement>
+   */
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
   };
+
+  /**
+   * If the user is not logged in, then log them in, and if they are logged in, then set the error
+   * state to 1.
+   * @param event - React.FormEvent<HTMLFormElement>
+   */
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!user) {
@@ -35,11 +55,10 @@ function Login() {
           setUser(true);
           navigate("/Profile");
         })
-        .catch((error) => {
-        });
-    }else {
-      setError(1)
-    } 
+        .catch((error) => {});
+    } else {
+      setError(1);
+    }
   };
   return (
     <div className="relative flex flex-col justify-center min-h-screen overflow-hidden">
@@ -53,12 +72,18 @@ function Login() {
             >
               Email
             </label>
-            <div className={checkerror === 1 ? " outline outline-offset-1 outline-2 outline-red-500 rounded-md": "bg-white "}>
-            <input
-              type="email"
-              className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-black-400 focus:ring-black-300 focus:outline-none focus:ring focus:ring-opacity-40"
-              onChange={handleMailChange}
-            />
+            <div
+              className={
+                checkerror === 1
+                  ? " outline outline-offset-1 outline-2 outline-red-500 rounded-md"
+                  : "bg-white "
+              }
+            >
+              <input
+                type="email"
+                className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-black-400 focus:ring-black-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                onChange={handleMailChange}
+              />
             </div>
           </div>
           <div className="mb-2">
@@ -68,12 +93,18 @@ function Login() {
             >
               Password
             </label>
-            <div className={checkerror === 1 ? "bg-white outline outline-offset-1 outline-2 outline-red-500 rounded-md" : "bg-white"}>
-            <input
-              type="password"
-              className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-black-400 focus:ring-black-300 focus:outline-none focus:ring focus:ring-opacity-40"
-              onChange={handlePasswordChange}
-            />
+            <div
+              className={
+                checkerror === 1
+                  ? "bg-white outline outline-offset-1 outline-2 outline-red-500 rounded-md"
+                  : "bg-white"
+              }
+            >
+              <input
+                type="password"
+                className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-black-400 focus:ring-black-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                onChange={handlePasswordChange}
+              />
             </div>
           </div>
           <div className="mt-6">

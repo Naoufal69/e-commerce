@@ -12,6 +12,11 @@ function Index() {
     image: string;
     id: string;
   };
+
+  /**
+   * Loads the motocross collection from the database and sets the state of the motocross array to the
+   * loaded motocross collection.
+   */
   const loadMotocross = async () => {
     const q = query(collection(db, "motocross"));
     const querySnapshot = await getDocs(q);
@@ -24,6 +29,10 @@ function Index() {
     });
     setMoto(loadedMotocross);
   };
+
+  /*
+   * Load the motocross when the component mounts.
+   */
   useEffect(() => {
     loadMotocross();
   }, []);

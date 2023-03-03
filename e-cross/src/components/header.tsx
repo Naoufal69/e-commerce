@@ -10,8 +10,7 @@ function Header() {
           <img src={logo} alt="Image gauche" className="h-20 animate-spin" />
         </Link>
       </div>
-      <div
-        className="text-white m-auto font-mono text-5xl font-bold capitalize">
+      <div className="text-white m-auto font-mono text-5xl font-bold capitalize">
         <Link to="/">E-Cross</Link>
       </div>
 

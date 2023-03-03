@@ -8,6 +8,7 @@ import Produit from "./components/produit";
 import Profil from "./components/profil";
 
 const App = () => {
+  /* Voici toutes les routes */
   const routes = useRoutes([
     { path: "/", element: <Index /> },
     { path: "/Profile", element: <Profil /> },

@@ -13,7 +13,8 @@ export type CartItem = {
   marque: string;
   image: string;
   id: string;
-  itemid?: number
+  itemid?: number;
+  description: string;
 };
 
 const CartContext = createContext(
@@ -31,9 +32,9 @@ const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       case "add":
         return [...state, action.payload!];
       case "remove":
-      const tmpCart = [...state];
-      tmpCart.splice(action.payload!.itemid!,1);
-      return tmpCart;
+        const tmpCart = [...state];
+        tmpCart.splice(action.payload!.itemid!, 1);
+        return tmpCart;
       default:
         return state;
     }
