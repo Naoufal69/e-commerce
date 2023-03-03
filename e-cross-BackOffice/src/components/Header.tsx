@@ -8,13 +8,13 @@ function Header() {
     <header className="h-20 w-full min-w-full bg-gradient-to-r from-zinc-700 via-black to-black flex justify-between">
       <div className="h-20 ml-2">
         <Link to="/">
-          <img src={logo} alt="Image gauche" className="h-20 " />
+          <img src={logo} alt="Image gauche" className="h-20 animate-spin " />
         </Link>
       </div>
       <div className="text-white m-auto font-mono text-5xl font-bold capitalize">
         <Link to="/">E-Cross</Link>
       </div>
-      <div className="text-white my-auto mr-2 font-mono text-xl font-bold flex justify-end animate-bounce ">
+      <div className="text-white my-auto mr-2 font-mono text-xl font-bold flex justify-end  ">
         Admin
       </div>
     </header>
