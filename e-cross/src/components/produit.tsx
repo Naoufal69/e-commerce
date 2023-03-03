@@ -71,12 +71,6 @@ function Produit() {
                 <div className="flex w-full h-8 border-t border-black mt-4">
                   <div className="flex text-lg font-semibold w-full ml-2 m-auto">
                     <h2>Marque :</h2>
-                    <div
-                      key={index}
-                      className="text-base font-semibold m-auto mr-2"
-                    >
-                      {motocross.marque}
-                    </div>
                   </div>
                   <div className="text-base m-auto mr-2">
                     {motocross.marque}
@@ -134,9 +128,9 @@ function Produit() {
                     +
                   </button>
                 </div>
-                <div className=" w-fit mx-auto mt-5">
+                <div className="w-fit mx-auto mt-5 animation">
                   <button
-                    onClick={() =>
+                    onClick={() => {
                       dispatchCart({
                         type: "add",
                         payload: {
@@ -148,10 +142,17 @@ function Produit() {
                           image: motocross.image,
                           id: motocross.id,
                         },
-                      })
-                    }
+                      });               
+                      alert(
+                        "Vous avez ajouté " +
+                        state.count +
+                          " " +
+                          motocross.modele +
+                          " au panier"
+                      );
+                    }}
                     disabled={state.count === 0}
-                    className="bg-black text-white border-black rounded-md border-2 p-4"
+                    className="bg-black text-white border-black rounded-md border-2 p-2"
                   >
                     Ajouter au panier
                   </button>

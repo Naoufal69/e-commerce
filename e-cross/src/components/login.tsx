@@ -1,17 +1,21 @@
 import React, { useState,useEffect } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "./../firebase.config";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [mail, setMail] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(false);
+  const [checkerror, setError] = useState(0);
 
   useEffect(() => {
     if (localStorage.getItem("idToken")) {
       setUser(true);
     }
   }, []);
+
+  const navigate = useNavigate();
 
   const handleMailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setMail(event.target.value);
@@ -29,10 +33,13 @@ function Login() {
         .then((idToken) => {
           localStorage.setItem("idToken", idToken);
           setUser(true);
+          navigate("/Profile");
         })
         .catch((error) => {
         });
-    }
+    }else {
+      setError(1)
+    } 
   };
   return (
     <div className="relative flex flex-col justify-center min-h-screen overflow-hidden">
@@ -46,11 +53,13 @@ function Login() {
             >
               Email
             </label>
+            <div className={checkerror === 1 ? " outline outline-offset-1 outline-2 outline-red-500 rounded-md": "bg-white "}>
             <input
               type="email"
               className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-black-400 focus:ring-black-300 focus:outline-none focus:ring focus:ring-opacity-40"
               onChange={handleMailChange}
             />
+            </div>
           </div>
           <div className="mb-2">
             <label
@@ -59,11 +68,13 @@ function Login() {
             >
               Password
             </label>
+            <div className={checkerror === 1 ? "bg-white outline outline-offset-1 outline-2 outline-red-500 rounded-md" : "bg-white"}>
             <input
               type="password"
               className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-black-400 focus:ring-black-300 focus:outline-none focus:ring focus:ring-opacity-40"
               onChange={handlePasswordChange}
             />
+            </div>
           </div>
           <div className="mt-6">
             <button className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-black rounded-md focus:outline-none focus:bg-black-600">
