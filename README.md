@@ -6,7 +6,7 @@
 - Comment déployer
 
 ### Résumé des différentes pages
-Adresse de la prod : https://e-commerce-8xw47dl29-naoufalayache-gmailcom.vercel.app/
+Adresse de la prod : https://e-commerce-brown-gamma.vercel.app/
 
 L'application comprend actuellement (03/03/2023) :
 
@@ -20,6 +20,7 @@ L'application comprend actuellement (03/03/2023) :
 Les routes sont protégées par un jeton d'authentification. Si le jeton existe et est valide, l'utilisateur peut effectuer les actions nécessaires.
 
 ### BackOffice
+Adresse de la prod : https://e-commerce-fqfi.vercel.app/
 Dans le backoffice, un administrateur peut valider ou invalider une commande. Ce modèle a été préféré à un système automatique pour vérifier que chaque commande est correcte et qu'elle ne pose pas de problème.
 
 Le backoffice comprend actuellement (03/03/2023) :
